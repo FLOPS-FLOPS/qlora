@@ -117,12 +117,12 @@ class DataArguments:
         metadata={"help": "Maximum target sequence length. Sequences will be right padded (and possibly truncated)."},
     )
     dataset: str = field(
-        default='alpaca',
+        default='bbz662bbz/databricks-dolly-15k-ja-gozarinnemon',
         metadata={"help": "Which dataset to finetune on. See datamodule for options."}
     )
     dataset_format: Optional[str] = field(
         default=None,
-        metadata={"help": "Which dataset format is used. [alpaca|chip2|self-instruct|hh-rlhf]"}
+        metadata={"help": "Which dataset format is used. [bbz662bbz/databricks-dolly-15k-ja-gozarinnemon|chip2|self-instruct|hh-rlhf]"}
     )
 
 @dataclass
@@ -572,10 +572,10 @@ def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
 
     """
     def load_data(dataset_name):
-        if dataset_name == 'alpaca':
-            return load_dataset("tatsu-lab/alpaca")
-        elif dataset_name == 'alpaca-clean':
-            return load_dataset("yahma/alpaca-cleaned")
+        if dataset_name == 'bbz662bbz/databricks-dolly-15k-ja-gozarinnemon':
+            return load_dataset("tatsu-lab/bbz662bbz/databricks-dolly-15k-ja-gozarinnemon")
+        elif dataset_name == 'bbz662bbz/databricks-dolly-15k-ja-gozarinnemon-clean':
+            return load_dataset("yahma/bbz662bbz/databricks-dolly-15k-ja-gozarinnemon-cleaned")
         elif dataset_name == 'chip2':
             return load_dataset("laion/OIG", data_files='unified_chip2.jsonl')
         elif dataset_name == 'self-instruct':
@@ -601,10 +601,10 @@ def make_data_module(tokenizer: transformers.PreTrainedTokenizer, args) -> Dict:
 
     def format_dataset(dataset, dataset_format):
         if (
-            dataset_format == 'alpaca' or dataset_format == 'alpaca-clean' or
-            (dataset_format is None and args.dataset in ['alpaca', 'alpaca-clean'])
+            dataset_format == 'bbz662bbz/databricks-dolly-15k-ja-gozarinnemon' or dataset_format == 'bbz662bbz/databricks-dolly-15k-ja-gozarinnemon-clean' or
+            (dataset_format is None and args.dataset in ['bbz662bbz/databricks-dolly-15k-ja-gozarinnemon', 'bbz662bbz/databricks-dolly-15k-ja-gozarinnemon-clean'])
         ):
-            dataset = dataset.map(extract_alpaca_dataset, remove_columns=['instruction'])
+            dataset = dataset.map(extract_bbz662bbz/databricks-dolly-15k-ja-gozarinnemon_dataset, remove_columns=['instruction'])
         elif dataset_format == 'chip2' or (dataset_format is None and args.dataset == 'chip2'):
             dataset = dataset.map(lambda x: {
                 'input': x['text'].split('\n<bot>: ')[0].replace('<human>: ', ''),
